@@ -25,14 +25,13 @@ def main():
     hw2_dir = os.path.abspath(args.hw2_dir)
 
     if not os.path.isdir(hw1_dir):
-        print(f"Error: {hw1_dir} is not a valid directory", file=sys.stderr)
+        print(f"Err: {hw1_dir} is not a valid directory", file=sys.stderr)
         sys.exit(1)
 
     if not os.path.isdir(hw2_dir):
-        print(f"Error: {hw2_dir} is not a valid directory", file=sys.stderr)
+        print(f"Err: {hw2_dir} is not a valid directory", file=sys.stderr)
         sys.exit(1)
 
-    
     src_file = os.path.join(hw1_dir, "src/combine.cu")
     dst_file = os.path.join(hw2_dir, "src/combine.cu")
     so_file = os.path.join(hw2_dir, "minitorch/cuda_kernels/combine.so")
@@ -43,13 +42,9 @@ def main():
 
     os.makedirs(os.path.dirname(dst_file), exist_ok=True)
     os.makedirs(os.path.dirname(so_file), exist_ok=True)
-
     shutil.copy2(src_file, dst_file)
 
-    print(f"Copied {src_file} -> {dst_file}")
 
-
-    # 2. Run commands
     commands = [
         ["nvcc", "-o", so_file, "--shared", dst_file, "-Xcompiler", "-fPIC"]
     ]
